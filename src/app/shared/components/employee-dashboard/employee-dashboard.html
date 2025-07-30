@@ -1,136 +1,298 @@
 <div class="d-flex" id="wrapper">
-    <!-- Sidebar -->
-    <div class="bg-white border-end" id="sidebar-wrapper">
-      <div class="sidebar-heading border-bottom py-4 px-3 text-primary fw-bold fs-4">EMPLOYEE</div>
-      <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light" data-bs-toggle="modal" data-bs-target="#leaveRequestModal">Apply for Leave</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Leave History</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Application Status</a>
-      </div>
+  <!-- Sidebar -->
+  <div class="bg-white border-end" id="sidebar-wrapper">
+    <div
+      class="sidebar-heading border-bottom py-4 px-1 text-primary fw-bold fs-4"
+    >
+      EMPLOYEE MANAGEMENT
     </div>
-
-    <!-- Page Content -->
-    <div id="page-content-wrapper" class="w-100">
-      <nav class="navbar navbar-expand-lg navbar-light bg-primary text-white px-4">
-        <div class="d-flex align-items-center ms-auto">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <img [src]="image" class="rounded-circle" alt="Profile" style="width: 40px; height: 40px;">
-        </div>
-      </nav>
-
-      <div class="container-fluid mt-4">
-        <div class="row g-4">
-          <!-- Employee Info -->
-          <div class="col-12">
-            <div class="card shadow-sm">
-              <div class="card-header bg-info text-white">
-                <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i>Employee Profile</h5>
-              </div>
-              <div class="card-body d-flex flex-wrap align-items-center justify-content-between">
-                <div class="d-flex align-items-center">
-                  <img [src]="image" class="rounded-circle me-4" alt="Employee Photo" style="width: 80px; height: 80px;">
-                  <div>
-                    <h5 class="card-title mb-1">{{ fullName }}</h5>
-                    <p class="mb-1 text-muted">{{ title }}</p>
-                    <p class="mb-0 text-muted">{{ department }}</p>
-                  </div>
-                </div>
-                <div>
-                  <p class="mb-1"><strong>Email:</strong> {{ email }}</p>
-                  <p class="mb-0"><strong>Employee ID:</strong> {{ employee_id }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Leave Stats -->
-          <div class="col-md-4">
-            <div class="card text-white bg-warning h-100">
-              <div class="card-body">
-                <h5 class="card-title">Leave Stats</h5>
-                <p>Total Leaves: {{ leaves.getMaxLeaves() }}</p>
-                <p>Used: {{ leaves.getMaxLeaves() - leaves.getRemainingLeaves(employee_id!) }}</p>
-                <p>Remaining: {{ leaves.getRemainingLeaves(employee_id!) }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Apply for Leave -->
-          <div class="col-md-4">
-            <div class="card text-white bg-success h-100">
-              <div class="card-body d-flex flex-column justify-content-between">
-                <h5 class="card-title">Apply for Leave</h5>
-                <p>Click below to submit a leave request.</p>
-                <button class="btn btn-light mt-auto" data-bs-toggle="modal" data-bs-target="#leaveRequestModal">Request Leave</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Application Status -->
-          <div class="col-md-4">
-            <div class="card text-white bg-secondary h-100">
-              <div class="card-body">
-                <h5 class="card-title">Application Status</h5>
-                <ng-container *ngIf="lastLeaveRequest; else noRequest">
-                  <p>
-                    Last Leave:
-                    <span class="badge"
-                          [class.bg-warning]="lastLeaveRequest.status === 'Pending'"
-                          [class.bg-success]="lastLeaveRequest.status === 'Approved'"
-                          [class.bg-danger]="lastLeaveRequest.status === 'Rejected'">
-                      {{ lastLeaveRequest.status }}
-                    </span>
-                  </p>
-                  <p>
-                    Applied on:
-                    {{ lastLeaveRequest.submittedOn | date: 'mediumDate' }}
-                  </p>
-                </ng-container>
-                <ng-template #noRequest>
-                  <p>No leave application pending or submitted.</p>
-                </ng-template>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Leave Request Modal -->
-      <div class="modal fade" id="leaveRequestModal" tabindex="-1" aria-labelledby="leaveRequestModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="leaveRequestModalLabel">Leave Request Form</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="days" class="form-label">Number of Days</label>
-                  <input type="number" class="form-control" id="days" [(ngModel)]="leaveDays" name="days">
-                </div>
-                <div class="mb-3">
-                  <label for="reason" class="form-label">Reason</label>
-                  <textarea class="form-control" id="reason" rows="3" [(ngModel)]="leaveReason" name="reason"></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="empId" class="form-label">Employee ID</label>
-                  <input type="text" class="form-control" id="empId" [value]="employee_id" readonly>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" (click)="submitRequest()">Submit Request</button>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div class="list-group list-group-flush">
+      <a
+        href="#"
+        class="list-group-item list-group-item-action bg-light"
+        data-bs-toggle="modal"
+        data-bs-target="#leaveRequestModal"
+        >Apply for Leave</a
+      >
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Page Content -->
+  <div id="page-content-wrapper" class="w-100">
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-primary text-white px-4"
+    >
+      <div class="d-flex align-items-center ms-auto">
+        <div id="page-content-wrapper" class="w-100">
+          <nav
+            class="navbar navbar-expand-lg navbar-light bg-primary text-white px-4"
+          >
+            <div class="d-flex align-items-center ms-auto">
+              <!-- If employee_role is 'user' -->
+              <ng-container
+                *ngIf="employee_role === 'user'; else adminTemplate"
+              >
+              </ng-container>
 
+              <!-- Else block -->
+              <ng-template #adminTemplate>
+                <div>
+                  <div>
+                    <button
+                      class="btn btn-primary btn-sm shadow-sm rounded-pill mx-2 bg-white text-primary"
+                      (click)="adminDashboard()"
+                    >
+                      Go to {{ fullName }}'s Admin profile
+                    </button>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="dropdown">
+          <img
+            [src]="image"
+            class="rounded-circle dropdown-toggle"
+            alt="Profile"
+            style="width: 40px; height: 40px; cursor: pointer"
+            (click)="toggleDropdown()"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          />
+
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            [class.show]="showDropdown"
+          >
+            <li>
+              <h6 class="dropdown-header">{{ fullName }}</h6>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item text-danger" href="#" (click)="logout()">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+      <div class="row g-4">
+        <!-- Employee Info -->
+        <div class="col-12">
+          <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0">
+                <i class="fas fa-user-circle me-2"></i>Employee Profile
+              </h5>
+            </div>
+            <div
+              class="card-body d-flex flex-wrap align-items-center justify-content-between"
+            >
+              <div class="d-flex align-items-center">
+                <img
+                  [src]="image"
+                  class="rounded-circle me-4"
+                  alt="Employee Photo"
+                  style="width: 80px; height: 80px"
+                />
+                <div>
+                  <h5 class="card-title mb-1">{{ fullName }}</h5>
+                  <p class="mb-1 text-muted">{{ title }}</p>
+                  <p class="mb-0 text-muted">{{ department }}</p>
+                </div>
+              </div>
+              <div>
+                <p class="mb-1"><strong>Email:</strong> {{ email }}</p>
+                <p class="mb-0">
+                  <strong>Employee ID:</strong> {{ employee_id }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leave Stats -->
+        <div class="col-md-4">
+          <div class="card text-white bg-warning h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-calendar-check me-2"></i>Leave Stats
+              </h5>
+              <p><strong>Total Leaves:</strong> {{ leaves.getMaxLeaves() }}</p>
+              <p>
+                <strong>Used:</strong>
+                {{
+                  leaves.getMaxLeaves() -
+                    leaves.getRemainingLeaves(employee_id!)
+                }}
+              </p>
+              <p>
+                <strong>Remaining:</strong>
+                {{ leaves.getRemainingLeaves(employee_id!) }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Apply for Leave -->
+        <div class="col-md-4">
+          <div class="card text-white bg-success h-100">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <h5 class="card-title">
+                <i class="fas fa-plus-circle me-2"></i>Apply for Leave
+              </h5>
+              <p>Click below to submit a leave request.</p>
+              <button
+                class="btn btn-light mt-auto"
+                data-bs-toggle="modal"
+                data-bs-target="#leaveRequestModal"
+              >
+                <i class="fas fa-paper-plane me-2"></i>Request Leave
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Application Status -->
+        <div class="col-md-4">
+          <div class="card text-white bg-secondary h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-clock me-2"></i>Application Status
+              </h5>
+              <ng-container *ngIf="lastLeaveRequest; else noRequest">
+                <p>
+                  <strong>Last Leave:</strong>
+                  <span
+                    class="badge ms-2"
+                    [class.bg-warning]="lastLeaveRequest.status === 'Pending'"
+                    [class.bg-success]="lastLeaveRequest.status === 'Approved'"
+                    [class.bg-danger]="lastLeaveRequest.status === 'Rejected'"
+                  >
+                    {{ lastLeaveRequest.status }}
+                  </span>
+                </p>
+                <p><strong>Days:</strong> {{ lastLeaveRequest.days }}</p>
+                <p>
+                  <strong>Applied on:</strong><br />
+                  {{ lastLeaveRequest.submittedOn | date : "mediumDate" }}
+                </p>
+              </ng-container>
+              <ng-template #noRequest>
+                <p>No leave application pending or submitted.</p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leave Request Modal -->
+    <div
+      class="modal fade"
+      id="leaveRequestModal"
+      tabindex="-1"
+      aria-labelledby="leaveRequestModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="leaveRequestModalLabel">
+              <i class="fas fa-calendar-plus me-2"></i>Leave Request Form
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="days" class="form-label"
+                  ><i class="fas fa-calendar-day me-2"></i>Number of Days</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="days"
+                  [(ngModel)]="leaveDays"
+                  name="days"
+                  min="1"
+                  max="{{ leaves.getRemainingLeaves(employee_id!) }}"
+                />
+                <div class="form-text">
+                  Available leave days:
+                  {{ leaves.getRemainingLeaves(employee_id!) }}
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="reason" class="form-label"
+                  ><i class="fas fa-comment me-2"></i>Reason</label
+                >
+                <textarea
+                  class="form-control"
+                  id="reason"
+                  rows="3"
+                  [(ngModel)]="leaveReason"
+                  name="reason"
+                  placeholder="Please provide reason for leave..."
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="empId" class="form-label"
+                  ><i class="fas fa-id-card me-2"></i>Employee ID</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="empId"
+                  [value]="employee_id"
+                  readonly
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              <i class="fas fa-times me-2"></i>Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="submitRequest()"
+              [disabled]="
+                !leaveReason ||
+                leaveDays <= 0 ||
+                leaveDays > leaves.getRemainingLeaves(employee_id!)
+              "
+            >
+              <i class="fas fa-paper-plane me-2"></i>Submit Request
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop for dropdown -->
+<div
+  *ngIf="showDropdown"
+  class="dropdown-backdrop"
+  (click)="closeDropdown()"
+></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

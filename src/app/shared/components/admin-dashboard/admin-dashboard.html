@@ -1,11 +1,9 @@
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
   <div class="bg-white border-end" id="sidebar-wrapper">
-    <div class="sidebar-heading border-bottom py-4 px-3 text-primary fw-bold fs-4">ADMIN</div>
+    <div class="sidebar-heading border-bottom py-4 px-1 text-primary fw-bold fs-4">EMPLOYEE MANAGEMENT</div>
     <div class="list-group list-group-flush">
-      <a href="#" class="list-group-item list-group-item-action bg-light active">Manage Requests</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Employees List</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Reports</a>
+
     </div>
   </div>
 
@@ -14,8 +12,25 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-primary text-white px-4">
       <div class="ms-auto d-flex align-items-center">
-        <input class="form-control me-3" type="search" placeholder="Search employee..." />
-        <img [src]="adminImage" class="rounded-circle" alt="Admin" style="width: 40px; height: 40px;" />
+        <!-- <input class="form-control me-3" type="search" placeholder="Search employee..." /> -->
+        <div><button class="btn btn-primary btn-sm shadow-sm rounded-pill mx-2 bg-white text-primary" (click)="employeeDashboard()" >Go to {{adminName}}'s Employee profile</button></div>        
+        <!-- Profile Dropdown -->
+        <div class="dropdown">
+          <img [src]="adminImage" 
+               class="rounded-circle dropdown-toggle" 
+               alt="Admin" 
+               style="width: 40px; height: 40px; cursor: pointer;" 
+               (click)="toggleDropdown()"
+               data-bs-toggle="dropdown"
+               aria-expanded="false" />
+          
+          <ul class="dropdown-menu dropdown-menu-end" [class.show]="showDropdown">
+            <li><h6 class="dropdown-header">{{ adminName }}</h6></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#" (click)="logout()">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+          </ul>
+        </div>
       </div>
     </nav>
 
@@ -32,7 +47,8 @@
                 <img [src]="adminImage" class="rounded-circle me-4" alt="Admin Photo" style="width: 80px; height: 80px;">
                 <div>
                   <h5 class="mb-1">{{ adminName }}</h5>
-                  <p class="mb-0 text-muted">Admin</p>
+                  <p class="mb-0 text-muted">{{employee_department}}</p>
+                  <p class="mb-0 text-muted">{{employee_title}}</p>
                 </div>
               </div>
               <div>
@@ -83,12 +99,12 @@
                   <button class="btn btn-success btn-sm me-1"
                           (click)="approve(i)"
                           [disabled]="req.status !== 'Pending'">
-                    Approve
+                    <i class="fas fa-check me-1"></i>Approve
                   </button>
                   <button class="btn btn-danger btn-sm"
                           (click)="reject(i)"
                           [disabled]="req.status !== 'Pending'">
-                    Reject
+                    <i class="fas fa-times me-1"></i>Reject
                   </button>
                 </td>
               </tr>
@@ -102,3 +118,8 @@
     </div>
   </div>
 </div>
+
+<!-- Backdrop for dropdown -->
+<div *ngIf="showDropdown" class="dropdown-backdrop" (click)="closeDropdown()"></div>
+
+<router-outlet></router-outlet>

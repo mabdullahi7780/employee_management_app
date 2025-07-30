@@ -20,3 +20,66 @@ body {
   height: 40px;
   width: 40px;
 }
+
+/* Profile dropdown styles */
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: transparent;
+}
+
+.dropdown-menu {
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item.text-danger:hover {
+  background-color: #f8d7da;
+  color: #721c24 !important;
+}
+
+/* Card hover effects */
+.card:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Button hover effects */
+.btn:hover {
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}
+
+/* Profile image hover effect */
+.rounded-circle:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* Modal enhancements */
+.modal-header {
+  border-bottom: 2px solid #dee2e6;
+}
+
+.modal-footer {
+  border-top: 2px solid #dee2e6;
+}
+
+/* Badge improvements */
+.badge {
+  font-size: 0.8em;
+  padding: 0.4em 0.8em;
+}

@@ -26,6 +26,7 @@ export class EmployeeDashboard implements OnInit {
   title = localStorage.getItem('emp_title');
   email = localStorage.getItem('emp_email');
   image = localStorage.getItem('emp_image');
+  employee_role = localStorage.getItem('emp_role') ?? '';
 
   router = inject(Router);
 
@@ -33,8 +34,8 @@ export class EmployeeDashboard implements OnInit {
   leaveDays: number = 0;
   leaveReason: string = '';
   leaveEmpId: string = this.employee_id ?? '';
-
   lastLeaveRequest: any = null;
+  showDropdown = false;
 
   constructor(public leaves: Leaves) {}
 
@@ -46,28 +47,28 @@ export class EmployeeDashboard implements OnInit {
   }
 
   submitRequest() {
-  const leaveRequest = {
-    empId: this.leaveEmpId,
-    days: this.leaveDays,
-    reason: this.leaveReason,
-    status:"Pending" as const
-  };
+    const leaveRequest = {
+      empId: this.leaveEmpId,
+      days: this.leaveDays,
+      reason: this.leaveReason,
+      status: "Pending" as const
+    };
 
-  this.leaves.submitLeaveRequest(leaveRequest);
-  console.log('Leave Request Submitted:', leaveRequest);
+    this.leaves.submitLeaveRequest(leaveRequest);
+    console.log('Leave Request Submitted:', leaveRequest);
 
-  this.leaveDays = 0;
-  this.leaveReason = '';
+    this.leaveDays = 0;
+    this.leaveReason = '';
 
-  // Blur focused button to avoid aria-hidden focus warning
-  (document.activeElement as HTMLElement)?.blur();
+    // Blur focused button to avoid aria-hidden focus warning
+    (document.activeElement as HTMLElement)?.blur();
 
-  // Simulate click on modal close button
-  const closeBtn = document.querySelector('#leaveRequestModal .btn-close') as HTMLElement;
-  closeBtn?.click();
+    // Simulate click on modal close button
+    const closeBtn = document.querySelector('#leaveRequestModal .btn-close') as HTMLElement;
+    closeBtn?.click();
 
-  this.updateLastLeaveRequest();
-}
+    this.updateLastLeaveRequest();
+  }
 
   updateLastLeaveRequest() {
     const allRequests = this.leaves.getAllRequests();
@@ -75,5 +76,40 @@ export class EmployeeDashboard implements OnInit {
       .filter(req => req.empId === this.employee_id)
       .sort((a, b) => (b.submittedOn || '').localeCompare(a.submittedOn || ''));
     this.lastLeaveRequest = empRequests.length > 0 ? empRequests[0] : null;
+  }
+
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  closeDropdown() {
+    this.showDropdown = false;
+  }
+
+  logout() {
+    // Clear all user data from localStorage
+    localStorage.removeItem('login_token');
+    localStorage.removeItem('user_role');
+    localStorage.removeItem('user_name');
+    localStorage.removeItem('emp_id');
+    localStorage.removeItem('department');
+    localStorage.removeItem('emp_title');
+    localStorage.removeItem('emp_email');
+    localStorage.removeItem('emp_image');
+    
+    // Navigate to login page
+    this.router.navigateByUrl('/login');
+  }
+
+  adminDashboard() {
+    this.router.navigateByUrl('/admin_dashboard');
+  }
+
+  // Method to refresh leave balance after approval/rejection
+  refreshData() {
+    this.updateLastLeaveRequest();
+    // Force re-initialization to get updated balance
+    const empId = this.employee_id ?? 'emp_101';
+    this.leaves.initializeLeave(empId);
   }
 }

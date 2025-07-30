@@ -50,6 +50,7 @@ export class Login {
             localStorage.setItem('emp_title', title);
             localStorage.setItem('emp_email', email);
             localStorage.setItem('emp_image', image);
+            localStorage.setItem('emp_role', role);
 
             // Route based on role
             if (role === 'admin' || role === 'moderator') {
