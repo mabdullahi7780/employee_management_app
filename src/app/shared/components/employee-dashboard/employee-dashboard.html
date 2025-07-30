@@ -1,5 +1,4 @@
-
-  <div class="d-flex" id="wrapper">
+<div class="d-flex" id="wrapper">
     <!-- Sidebar -->
     <div class="bg-white border-end" id="sidebar-wrapper">
       <div class="sidebar-heading border-bottom py-4 px-3 text-primary fw-bold fs-4">EMPLOYEE</div>
@@ -72,8 +71,24 @@
             <div class="card text-white bg-secondary h-100">
               <div class="card-body">
                 <h5 class="card-title">Application Status</h5>
-                <p>Last Leave: <span class="badge bg-warning text-dark">Pending</span></p>
-                <p>Applied on: 20 July 2025</p>
+                <ng-container *ngIf="lastLeaveRequest; else noRequest">
+                  <p>
+                    Last Leave:
+                    <span class="badge"
+                          [class.bg-warning]="lastLeaveRequest.status === 'Pending'"
+                          [class.bg-success]="lastLeaveRequest.status === 'Approved'"
+                          [class.bg-danger]="lastLeaveRequest.status === 'Rejected'">
+                      {{ lastLeaveRequest.status }}
+                    </span>
+                  </p>
+                  <p>
+                    Applied on:
+                    {{ lastLeaveRequest.submittedOn | date: 'mediumDate' }}
+                  </p>
+                </ng-container>
+                <ng-template #noRequest>
+                  <p>No leave application pending or submitted.</p>
+                </ng-template>
               </div>
             </div>
           </div>

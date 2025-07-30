@@ -6,6 +6,7 @@ export interface LeaveRequest {
   reason: string;
   days: number;
   status: 'Pending' | 'Approved' | 'Rejected';
+  submittedOn?: string; // <-- Added for timestamp
 }
 
 export class LeaveReqComponent {

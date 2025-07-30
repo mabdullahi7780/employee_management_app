@@ -34,11 +34,13 @@ export class AdminDashboard implements OnInit {
   }
 
   approve(index: number) {
-    this.req_list[index].status = 'Approved';
+    this.leaves.approveRequest(index);
+    this.req_list = this.leaves.getAllRequests();
   }
 
   reject(index: number) {
-    this.req_list[index].status = 'Rejected';
+    this.leaves.rejectRequest(index);
+    this.req_list = this.leaves.getAllRequests();
   }
 }
 

@@ -34,12 +34,15 @@ export class EmployeeDashboard implements OnInit {
   leaveReason: string = '';
   leaveEmpId: string = this.employee_id ?? '';
 
+  lastLeaveRequest: any = null;
+
   constructor(public leaves: Leaves) {}
 
   ngOnInit() {
     const empId = this.employee_id ?? 'emp_101';
     this.leaves.initializeLeave(empId);
     console.log(this.leaves.getRemainingLeaves(empId));
+    this.updateLastLeaveRequest();
   }
 
   submitRequest() {
@@ -62,6 +65,15 @@ export class EmployeeDashboard implements OnInit {
   // Simulate click on modal close button
   const closeBtn = document.querySelector('#leaveRequestModal .btn-close') as HTMLElement;
   closeBtn?.click();
+
+  this.updateLastLeaveRequest();
 }
 
+  updateLastLeaveRequest() {
+    const allRequests = this.leaves.getAllRequests();
+    const empRequests = allRequests
+      .filter(req => req.empId === this.employee_id)
+      .sort((a, b) => (b.submittedOn || '').localeCompare(a.submittedOn || ''));
+    this.lastLeaveRequest = empRequests.length > 0 ? empRequests[0] : null;
+  }
 }
