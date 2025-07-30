@@ -1,0 +1,121 @@
+
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-white border-end" id="sidebar-wrapper">
+      <div class="sidebar-heading border-bottom py-4 px-3 text-primary fw-bold fs-4">EMPLOYEE</div>
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action bg-light" data-bs-toggle="modal" data-bs-target="#leaveRequestModal">Apply for Leave</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Leave History</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Application Status</a>
+      </div>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper" class="w-100">
+      <nav class="navbar navbar-expand-lg navbar-light bg-primary text-white px-4">
+        <div class="d-flex align-items-center ms-auto">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <img [src]="image" class="rounded-circle" alt="Profile" style="width: 40px; height: 40px;">
+        </div>
+      </nav>
+
+      <div class="container-fluid mt-4">
+        <div class="row g-4">
+          <!-- Employee Info -->
+          <div class="col-12">
+            <div class="card shadow-sm">
+              <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i>Employee Profile</h5>
+              </div>
+              <div class="card-body d-flex flex-wrap align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                  <img [src]="image" class="rounded-circle me-4" alt="Employee Photo" style="width: 80px; height: 80px;">
+                  <div>
+                    <h5 class="card-title mb-1">{{ fullName }}</h5>
+                    <p class="mb-1 text-muted">{{ title }}</p>
+                    <p class="mb-0 text-muted">{{ department }}</p>
+                  </div>
+                </div>
+                <div>
+                  <p class="mb-1"><strong>Email:</strong> {{ email }}</p>
+                  <p class="mb-0"><strong>Employee ID:</strong> {{ employee_id }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Leave Stats -->
+          <div class="col-md-4">
+            <div class="card text-white bg-warning h-100">
+              <div class="card-body">
+                <h5 class="card-title">Leave Stats</h5>
+                <p>Total Leaves: {{ leaves.getMaxLeaves() }}</p>
+                <p>Used: {{ leaves.getMaxLeaves() - leaves.getRemainingLeaves(employee_id!) }}</p>
+                <p>Remaining: {{ leaves.getRemainingLeaves(employee_id!) }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Apply for Leave -->
+          <div class="col-md-4">
+            <div class="card text-white bg-success h-100">
+              <div class="card-body d-flex flex-column justify-content-between">
+                <h5 class="card-title">Apply for Leave</h5>
+                <p>Click below to submit a leave request.</p>
+                <button class="btn btn-light mt-auto" data-bs-toggle="modal" data-bs-target="#leaveRequestModal">Request Leave</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Application Status -->
+          <div class="col-md-4">
+            <div class="card text-white bg-secondary h-100">
+              <div class="card-body">
+                <h5 class="card-title">Application Status</h5>
+                <p>Last Leave: <span class="badge bg-warning text-dark">Pending</span></p>
+                <p>Applied on: 20 July 2025</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leave Request Modal -->
+      <div class="modal fade" id="leaveRequestModal" tabindex="-1" aria-labelledby="leaveRequestModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="leaveRequestModalLabel">Leave Request Form</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  <label for="days" class="form-label">Number of Days</label>
+                  <input type="number" class="form-control" id="days" [(ngModel)]="leaveDays" name="days">
+                </div>
+                <div class="mb-3">
+                  <label for="reason" class="form-label">Reason</label>
+                  <textarea class="form-control" id="reason" rows="3" [(ngModel)]="leaveReason" name="reason"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="empId" class="form-label">Employee ID</label>
+                  <input type="text" class="form-control" id="empId" [value]="employee_id" readonly>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" (click)="submitRequest()">Submit Request</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+

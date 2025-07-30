@@ -1,0 +1,22 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#wrapper {
+  min-height: 100vh;
+}
+
+#sidebar-wrapper {
+  min-width: 250px;
+  max-width: 250px;
+  height: 100vh;
+}
+
+#page-content-wrapper {
+  flex: 1;
+}
+
+.navbar img {
+  height: 40px;
+  width: 40px;
+}
